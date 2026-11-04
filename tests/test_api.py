@@ -2,10 +2,29 @@
 from fastapi.testclient import TestClient
 
 # Import the application object defined in main.py
-from main import app
+from main import create_app
+import pytest
 
 # Create a reusable test client for all test functions.
-client = TestClient(app)
+
+#client = TestClient(app)
+
+#The test will no longer require a running ml flow server
+# they test api independently using a fake model
+class FakeIrisModel:
+    def predict(self,features):
+        return [0]
+
+def fake_model_loader():
+    return FakeIrisModel()
+
+def fake_version_loader():
+    return "test-version"
+@pytest.fixture
+def client():
+    app = create_app(model_loader=fake_model_loader,version_loader=fake_version_loader)
+    with TestClient(app) as test_client:
+        yield test_client
 
 
 def test_health_endpoint():
