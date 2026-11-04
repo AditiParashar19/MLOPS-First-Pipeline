@@ -43,7 +43,7 @@ def create_app(model_loader:Callable=load_mlflow_model,version_loader:Callable=N
             return champion_version.version
         
     @asynccontextmanager
-    def lifespan(app:FastAPI):
+    async def lifespan(app:FastAPI):
         try:
             app.state.model=model_loader()
         except Exception as ex:
@@ -79,6 +79,7 @@ def create_app(model_loader:Callable=load_mlflow_model,version_loader:Callable=N
             "prediction": prediction,
             "class_name": ["setosa", "versicolor", "virginica"][prediction]
         }
+    return app
 #Procutin application instance
 app=create_app()
 # try:
@@ -91,4 +92,3 @@ app=create_app()
 #     print(f"Loaded model: iris-classifier version: {model_version}")
 # except Exception as e:
 #     raise RuntimeError(f"Could not load champion model from MLflow: {e}")
-

@@ -107,8 +107,8 @@ def test_health_endpoint(client):
     assert response.status_code == 200
     
     # Now check response body
-    assert response.json()["status"] == {"status": "healthy"}
-    assert response.json()["model_version"] == "test_version"
+    assert response.json()["status"] == "healthy"
+    assert response.json()["model_version"] == "test-version"
 
 
 def test_valid_iris_prediction(client):
