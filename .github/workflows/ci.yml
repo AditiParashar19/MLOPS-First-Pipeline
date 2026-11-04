@@ -21,7 +21,7 @@ jobs:
   # Job1 : Test
   test:
     # GitHub repo provides a fresh Ubuntu virtual environment for this job
-    name:Run API Tests
+    name: Run API Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # Publish only when code is pushed to main
-    if: github.event_name == 'push' && github.ref == 'refs/head/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       # Download repo source code
       - name: Checkout source code
@@ -79,8 +79,8 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
-            type=raw, value=latest
-            type=sha, format=short
+            type=raw,value=latest
+            type=sha,format=short
 
       # Build the docker image and push it to GHCR
       - name: Build and Push Docker Image
